@@ -3,6 +3,8 @@ package io.pivotal.microservices.services.registration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
+import org.springframework.cloud.sleuth.sampler.AlwaysSampler;
+import org.springframework.context.annotation.Bean;
 
 /**
  * All you need to run a Eureka registration server.
@@ -24,5 +26,14 @@ public class RegistrationServer {
 		System.setProperty("spring.config.name", "registration-server");
 
 		SpringApplication.run(RegistrationServer.class, args);
+	}
+
+	/**
+	 * Allows to choose strategy for tracing
+	 * @return {@link AlwaysSampler}
+	 */
+	@Bean
+	public AlwaysSampler defaultSampler() {
+		return new AlwaysSampler();
 	}
 }

@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.sleuth.sampler.AlwaysSampler;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 
 /**
@@ -46,5 +48,14 @@ public class AccountsServer {
 		System.setProperty("spring.config.name", "accounts-server");
 
 		SpringApplication.run(AccountsServer.class, args);
+	}
+
+	/**
+	 * Allows to choose strategy for tracing
+	 * @return {@link AlwaysSampler}
+	 */
+	@Bean
+	public AlwaysSampler defaultSampler() {
+		return new AlwaysSampler();
 	}
 }
