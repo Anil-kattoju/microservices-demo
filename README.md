@@ -2,13 +2,17 @@
 
 Demo application to go with my [Microservices Blog](https://spring.io/blog/2015/07/14/microservices-with-spring) on the spring.io website.
 
-![Demo System Schematic](https://github.com/paulc4/microservices-demo/blob/master/mini-system.jpg)
+![Demo System Schematic](https://github.com/vlotar/microservices-demo/blob/master/mini-system.jpg)
 
 Clone it and either load into your favorite IDE or use maven directly.
 
+Support of request tracing has been added according to [Spring Cloud Sleuth Docs](http://cloud.spring.io/spring-cloud-sleuth/spring-cloud-sleuth.html) 
+
+Good explanation can be found here: [Tracing In Microservices With Spring Cloud Sleuth](http://ryanjbaxter.com/cloud/spring%20cloud/spring/2016/07/07/spring-cloud-sleuth.html)
+
 ## Versions
 
-To access V1.0.0 of the repo, corresponding to Spring Cloud release-train Angel.SR6, click on the `release` tab in https://github.com/paulc4/microservices-demo.
+To access V1.1.0 of the repo, corresponding to Spring Cloud release-train Brixton.RELEASE, click on the `release` tab in https://github.com/vlotar/microservices-demo.
 
 ## Using an IDE
 
@@ -37,7 +41,7 @@ As you interact with the web-application ([http://localhost:3333](http://localho
 in the second and third windows.
 
  1. In a new window, run up a second account-server using HTTP port 2223:
-     * `java -jar target/microservice-demo-0.0.1-SNAPSHOT.jar accounts 2223`
+     * `java -jar target/microservice-demo-1.1.0.RELEASE.jar accounts 2223`
  1. Allow it to register itself
  1. Kill the first account-server and see the web-server switch to using the new account-server - no loss of service.
 
