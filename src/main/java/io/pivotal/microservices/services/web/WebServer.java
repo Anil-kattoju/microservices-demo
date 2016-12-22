@@ -17,8 +17,7 @@ import org.springframework.web.client.RestTemplate;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-// Disable component scanner ...
-@ComponentScan(useDefaultFilters = false)
+@ComponentScan(useDefaultFilters = false) // Disable component scanner
 public class WebServer {
 
 	/**

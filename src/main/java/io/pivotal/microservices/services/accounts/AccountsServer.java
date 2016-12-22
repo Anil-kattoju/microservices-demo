@@ -1,8 +1,5 @@
 package io.pivotal.microservices.services.accounts;
 
-import io.pivotal.microservices.accounts.AccountRepository;
-import io.pivotal.microservices.accounts.AccountsWebApplication;
-
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,22 +10,20 @@ import org.springframework.cloud.sleuth.sampler.AlwaysSampler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 
+import io.pivotal.microservices.accounts.AccountRepository;
+import io.pivotal.microservices.accounts.AccountsConfiguration;
+
 /**
  * Run as a micro-service, registering with the Discovery Server (Eureka).
  * <p>
  * Note that the configuration for this application is imported from
- * {@link AccountsWebApplication}. This is a deliberate separation of concerns
- * and allows the application to run:
- * <ul>
- * <li>Standalone - by executing {@link AccountsWebApplication#main(String[])}</li>
- * <li>As a microservice - by executing {@link AccountsServer#main(String[])}</li>
- * </ul>
+ * {@link AccountsConfiguration}. This is a deliberate separation of concerns.
  * 
  * @author Paul Chapman
  */
 @EnableAutoConfiguration
 @EnableDiscoveryClient
-@Import(AccountsWebApplication.class)
+@Import(AccountsConfiguration.class)
 public class AccountsServer {
 
 	@Autowired
