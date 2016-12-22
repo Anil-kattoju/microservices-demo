@@ -10,6 +10,8 @@ Support of request tracing has been added according to [Spring Cloud Sleuth Docs
 
 Good explanation can be found here: [Tracing In Microservices With Spring Cloud Sleuth](http://ryanjbaxter.com/cloud/spring%20cloud/spring/2016/07/07/spring-cloud-sleuth.html)
 
+Docker image for [OpenZipkin](https://hub.docker.com/r/openzipkin/zipkin/) 
+
 ## Versions
 
 To access V1.1.0 of the repo, corresponding to Spring Cloud release-train Brixton.RELEASE, click on the `release` tab in https://github.com/vlotar/microservices-demo.
