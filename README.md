@@ -10,7 +10,13 @@ Support of request tracing has been added according to [Spring Cloud Sleuth Docs
 
 Good explanation can be found here: [Tracing In Microservices With Spring Cloud Sleuth](http://ryanjbaxter.com/cloud/spring%20cloud/spring/2016/07/07/spring-cloud-sleuth.html)
 
-Docker image for [OpenZipkin](https://hub.docker.com/r/openzipkin/zipkin/) 
+Docker image for [OpenZipkin](https://hub.docker.com/r/openzipkin/zipkin/)
+ 
+Documentation for [Spring Clout Netflix](http://cloud.spring.io/spring-cloud-netflix/spring-cloud-netflix.html)
+ 
+Hystrix [Configuration](https://github.com/Netflix/Hystrix/wiki/Configuration)
+ 
+Hystrix [Dashboard Explanation](https://github.com/Netflix/Hystrix/wiki/Dashboard)
 
 ## Versions
 

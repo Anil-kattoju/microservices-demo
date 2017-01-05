@@ -1,0 +1,1 @@
+seq 1 10 | xargs -n1 -P2 bash -c 'sh ./loadTest.sh'

@@ -1,10 +1,7 @@
 package io.pivotal.microservices.services.web;
 
-import io.pivotal.microservices.services.web.Account;
-
-import java.util.List;
-import java.util.logging.Logger;
-
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,22 +13,26 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.logging.Logger;
+
 /**
  * Client controller, fetches Account info from the microservice via
  * {@link WebAccountsService}.
- * 
+ *
  * @author Paul Chapman
  */
 @Controller
 public class WebAccountsController {
 
 	@Autowired
-	protected WebAccountsService accountsService;
+	private WebAccountsService accountsService;
 
-	protected Logger logger = Logger.getLogger(WebAccountsController.class
+	private Logger logger = Logger.getLogger(WebAccountsController.class
 			.getName());
 
-	public WebAccountsController(WebAccountsService accountsService) {
+	WebAccountsController(WebAccountsService accountsService) {
 		this.accountsService = accountsService;
 	}
 
@@ -45,14 +46,48 @@ public class WebAccountsController {
 		return "index";
 	}
 
+	/**
+	 * Full Documentation about Hystrix configuration:
+	 * https://github.com/Netflix/Hystrix/wiki/Configuration
+	 *
+	 * @param model         {@link Model}
+	 * @param accountNumber original account number provided by the API client
+	 * @return view name
+	 */
+	@HystrixCommand(fallbackMethod = "defaultAccount", commandProperties = {
+			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "30000"),
+			@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "5"),
+			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "20000"),
+			@HystrixProperty(name = "metrics.rollingStats.timeInMilliseconds", value = "10000") })
 	@RequestMapping("/accounts/{accountNumber}")
 	public String byNumber(Model model,
-			@PathVariable("accountNumber") String accountNumber) {
+								  @PathVariable("accountNumber") String accountNumber) {
 
 		logger.info("web-service byNumber() invoked: " + accountNumber);
 
 		Account account = accountsService.findByNumber(accountNumber);
 		logger.info("web-service byNumber() found: " + account);
+		model.addAttribute("account", account);
+		return "account";
+	}
+
+	/**
+	 * An example of how Hystrix annotation can be used
+	 *
+	 * @param model         {@link Model}
+	 * @param accountNumber original account number provided by the API client
+	 * @return view name
+	 */
+	@SuppressWarnings("unused")
+	public String defaultAccount(final Model model, final String accountNumber) {
+		//suitable for recommendations/suggestions or handling specific errors related to networking issues
+		logger.info("[Hystrix] web-service defaultAccount() invoked: " + accountNumber);
+		//just to demonstrate an example
+		Account account = new Account();
+		account.setId(-1L);
+		account.setNumber("-1");
+		account.setBalance(BigDecimal.ZERO);
+		account.setOwner("None");
 		model.addAttribute("account", account);
 		return "account";
 	}
@@ -77,7 +112,7 @@ public class WebAccountsController {
 
 	@RequestMapping(value = "/accounts/dosearch")
 	public String doSearch(Model model, SearchCriteria criteria,
-			BindingResult result) {
+								  BindingResult result) {
 		logger.info("web-service search() invoked: " + criteria);
 
 		criteria.validate(result);
